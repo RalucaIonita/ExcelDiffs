@@ -1,4 +1,4 @@
-﻿namespace ExcelDiffs.Models
+﻿namespace RootLogic.Models
 {
     public class CustomError
     {

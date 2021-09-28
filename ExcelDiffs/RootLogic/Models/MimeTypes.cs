@@ -3,7 +3,7 @@ using System.Linq;
 
 // ReSharper disable All
 
-namespace ExcelDiffs.Models
+namespace RootLogic.Models
 {
     public static class MimeTypes
     {

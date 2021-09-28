@@ -4,10 +4,10 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-	<ItemGroup>
-		<PackageReference Include="EPPlus" Version="4.5.3.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.10" />
-		<PackageReference Include="SendGrid" Version="9.24.3" />
-	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RootLogic\RootLogic.csproj" />
+  </ItemGroup>
+	
 
 </Project>

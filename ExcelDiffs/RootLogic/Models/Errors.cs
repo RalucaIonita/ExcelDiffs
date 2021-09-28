@@ -1,4 +1,4 @@
-﻿namespace ExcelDiffs.Models
+﻿namespace RootLogic.Models
 {
     public static class Errors
     {

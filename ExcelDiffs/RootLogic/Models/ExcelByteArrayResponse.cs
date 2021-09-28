@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text.Json.Serialization;
 
-namespace ExcelDiffs.Models
+namespace RootLogic.Models
 {
     public class ExcelByteArrayResponse
     {

@@ -1,11 +1,10 @@
-﻿using ExcelDiffs;
-using ExcelDiffs.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Contracts;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
+using RootLogic.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -17,7 +16,7 @@ using System.Text.RegularExpressions;
 // ReSharper disable SuggestVarOrType_BuiltInTypes
 // ReSharper disable SuggestVarOrType_SimpleTypes
 
-namespace ExcelDiffs
+namespace RootLogic.Helpers
 {
     public static class ExcelHelper
     {
@@ -132,6 +131,35 @@ namespace ExcelDiffs
 
             return result.Where(p => !string.IsNullOrWhiteSpace(p)).ToList();
         }
+
+        public static List<string> GetColumnDataFromExcelFile(this MemoryStream stream, int worksheetIndex,
+            Tuple<int, int> columnDataStartCell)
+        {
+            List<string> result = new List<string>();
+            using ExcelPackage package = new ExcelPackage(stream);
+            ExcelWorksheet worksheet = package.Workbook.Worksheets[worksheetIndex];
+
+            if (columnDataStartCell.Item1 == worksheet.Dimension.End.Row)
+            {
+                string singleValue = worksheet.Cells[columnDataStartCell.Item1, columnDataStartCell.Item2,
+                    worksheet.Dimension.End.Row, columnDataStartCell.Item2].Value.ToString();
+                result.Add(singleValue);
+            }
+            else
+            {
+                Array data = worksheet.Cells[columnDataStartCell.Item1, columnDataStartCell.Item2,
+                    worksheet.Dimension.End.Row, columnDataStartCell.Item2].Value as Array;
+
+                if (data == null) return result.Where(p => !string.IsNullOrWhiteSpace(p)).ToList();
+
+                for (int i = 0; i < data.Length; i++)
+                    result.Add(data.GetValue(i, 0)?.ToString());
+            }
+
+            return result.Where(p => !string.IsNullOrWhiteSpace(p)).ToList();
+        }
+
+
 
         public static List<T> GetDataFromExcelFile<T>(IFormFile file, int worksheetIndex, Tuple<int, int> dataStartCell,
             Tuple<int, int> dataEndCell = null, List<int> hiddenColumns = null)
